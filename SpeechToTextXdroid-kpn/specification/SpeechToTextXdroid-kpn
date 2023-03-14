@@ -1,0 +1,400 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Speech To Text - Xdroid",
+    "description" : "Xdroid Speech To Text API provides a seamless audio transcription service. \n\n### Key highlights\n\n- **Sandbox:** Full-fledged capabilities.\n\n- **Security:** HTTPS, OAuth, Rate limit.\n\n- **Versioning:** Supports version-less API, version tight. If no version is provided (in header) it defaults to latest version. \n\n---\n\n[Source view](https://app.swaggerhub.com/apis/kpn/speech-to-text-Xdroid)<br/>\n[Documentation view](https://app.swaggerhub.com/apis-docs/kpn/speech-to-text-Xdroid/)\n  \n---\n    \n[KPN API Store](https://developer.kpn.com/)<br/>\n[Getting Started](https://developer.kpn.com/getting-started)\n    \n---\n",
+    "termsOfService" : "https://developer.kpn.com/legal",
+    "contact" : {
+      "name" : "API Support Support",
+      "url" : "https://developer.kpn.com/support",
+      "email" : "api_developer@kpn.com"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://api-prd.kpn.com/data/kpn/voiceanalytics"
+  } ],
+  "security" : [ {
+    "oauth2" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Upload audio",
+    "description" : "Uploads an audio file and start a new analytics job.\n"
+  }, {
+    "name" : "Retrieve transcription",
+    "description" : "To retrieve transcritions, check the processing status with your unique **job_id**. \n\nPlease do not use intervals that are shorter than 10 seconds to check status to avoid a throttle penalty.\n"
+  } ],
+  "paths" : {
+    "/job" : {
+      "post" : {
+        "tags" : [ "Upload audio" ],
+        "summary" : "Submits audio files for analyis.",
+        "description" : "To create a new transcript use the following recommendations: \n+ Accepted container formats:\n  - .wav\n  - .mp3 / .mp4\n  - .opus / .ogg\n  \n+ Preferred requirements:\n  - Bitrate: 64 Kbit/s per channel (stero recording is supported)\n  - Sample rate: 8 KHz\n  - Uncompressed files preferred\n\n+ Max audio file size: 150 MB.",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/job_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/job"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "413" : {
+            "description" : "Request entity too large",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/job/{job_id}" : {
+      "get" : {
+        "tags" : [ "Retrieve transcription" ],
+        "summary" : "Retrieves JSON transcript of a finished transcription job.",
+        "description" : "Retrieves JSON file with the transcript of a previously uploaded audio file.\n ",
+        "parameters" : [ {
+          "name" : "job_id",
+          "in" : "path",
+          "description" : "ID of job to fetch.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "$ref" : "#/components/parameters/job_id"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success response if job is found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "413" : {
+            "description" : "Request entity too large",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "job" : {
+        "type" : "object",
+        "properties" : {
+          "job_id" : {
+            "type" : "integer",
+            "description" : "The job_id identifies your request, you should refer to this identifier later.",
+            "example" : 17424
+          }
+        }
+      },
+      "error" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "title" : "Transaction ID",
+            "type" : "string",
+            "description" : "Transaction ID of the the request."
+          },
+          "status" : {
+            "title" : "Status",
+            "type" : "string",
+            "description" : "Status"
+          },
+          "name" : {
+            "title" : "Error name",
+            "type" : "string",
+            "description" : "Error name"
+          },
+          "message" : {
+            "title" : "Error message",
+            "type" : "string",
+            "description" : "Error message"
+          },
+          "info" : {
+            "title" : "Info",
+            "type" : "string",
+            "description" : "Additional information about error."
+          }
+        }
+      },
+      "job_body" : {
+        "type" : "object",
+        "properties" : {
+          "config" : {
+            "type" : "object",
+            "description" : "A JSON object defining the language of the audio file. For example: \n\n`{\"language\":\"en\",\"recording_start\":\"20201119121111\" }` or\n`{\"language\":\"en\",\"recording_start\":\"\" }`\n\nBody parameter | Description\n---------------|----------------------\n`language` | The parameter `language` is required in ISO language code. Supported language codes: </br> Global English: `en` </br> Global Spanish: `es` </br> Dutch: `nl` </br> French: `fr `</br> Example: `{\"language\":\"en\"}`\n`recording_start` | Day and time when the recording starts. Optional </br> Format: `YmdHis`. Example: `20201216081228`\n"
+          },
+          "audio_file" : {
+            "type" : "string",
+            "description" : "Attach the audio file to be transcribed. Requirements see above.",
+            "format" : "binary"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_data"
+          },
+          "results" : {
+            "$ref" : "#/components/schemas/inline_response_200_results"
+          }
+        }
+      },
+      "inline_response_200_data" : {
+        "type" : "object",
+        "properties" : {
+          "job_id" : {
+            "type" : "integer",
+            "description" : "Job ID",
+            "example" : 17424
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "Job creation timestamp",
+            "example" : "2020-11-19 15:26:06"
+          },
+          "audio_file" : {
+            "type" : "string",
+            "description" : "Uploaded audio file name",
+            "example" : "0036550e-720f-1239-0b99-eecf4973.wav"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Waiting | PROCESSING | Analyzed",
+            "enum" : [ "queued", "processing", "parsing", "analyzed" ]
+          }
+        }
+      },
+      "inline_response_200_results" : {
+        "type" : "object",
+        "properties" : {
+          "data_type" : {
+            "type" : "string",
+            "example" : "TRANSCRIPT"
+          },
+          "data_channel" : {
+            "type" : "integer",
+            "description" : "0 = first speaker, 1 = second speaker",
+            "example" : 1
+          },
+          "data_detect_start" : {
+            "type" : "integer",
+            "description" : "block start in millisec",
+            "example" : 8820
+          },
+          "data_detect_end" : {
+            "type" : "integer",
+            "description" : "block end in millisec",
+            "example" : 9070
+          },
+          "data_length" : {
+            "type" : "integer",
+            "description" : "block length in millisec",
+            "example" : 250
+          },
+          "data_probability" : {
+            "type" : "integer",
+            "description" : "probability of result"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "ok" : {
+        "description" : "OK",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/job"
+            }
+          }
+        }
+      },
+      "bad_request" : {
+        "description" : "Bad request",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "unauthorized" : {
+        "description" : "Unauthorized",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "not_found" : {
+        "description" : "Not found",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "server_error" : {
+        "description" : "Server error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "request_entity_too_large" : {
+        "description" : "Request entity too large",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "job_id" : {
+        "name" : "Job ID",
+        "in" : "path",
+        "description" : "ID of job to show",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "oauth2" : {
+        "type" : "oauth2",
+        "flows" : {
+          "clientCredentials" : {
+            "tokenUrl" : "https://api-prd.kpn.com/oauth/client_credential/accesstoken?grant_type=client_credentials",
+            "scopes" : { }
+          }
+        }
+      }
+    }
+  }
+}
