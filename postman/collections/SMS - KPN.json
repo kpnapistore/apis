@@ -43,6 +43,11 @@
 					{
 						"key": "Accept",
 						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "letmein",
+						"type": "text"
 					}
 				],
 				"body": {
