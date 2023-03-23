@@ -9,6 +9,7 @@ id = 90dd9037-c921-4637-a429-f185c323830d
 
 [config.relations.collections]
 rootDirectory = kpndeveloperapi/collections
+files[] = {"id":"322677-078d9542-63fc-4797-b5b5-f572cdd9bef4","path":"PM-Product_Catalogv4.0.0.json","metaData":{}}
 
 [config.relations.collections.metaData]
 
