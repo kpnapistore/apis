@@ -1,158 +1,675 @@
 {
 	"info": {
-		"_postman_id": "4c17ebcd-e0b1-45bf-84c5-98a0e80058bc",
-		"name": "Pokemon API",
+		"_postman_id": "4f8c0d59-154f-4cf0-aa87-ce92adb437f9",
+		"name": "Test [SMS-KPN]",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "New Request",
-			"_postman_id": "fc0e0943-3baf-412c-a502-1ffdac3194db",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://pokeapi.co/api/v2/pokemon?limit=200.",
-					"protocol": "https",
-					"host": [
-						"pokeapi",
-						"co"
-					],
-					"path": [
-						"api",
-						"v2",
-						"pokemon"
-					],
-					"query": [
-						{
-							"key": "limit",
-							"value": "200."
-						}
-					]
-				}
-			},
-			"response": [
+			"name": "OAuth",
+			"item": [
 				{
-					"id": "f4f0dd2e-6530-4f42-b135-6d45e2e4605a",
-					"name": "New Request",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": "{{URL}}"
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"name": "Get Access Token",
+					"event": [
 						{
-							"key": "Date",
-							"value": "Fri, 10 Mar 2023 12:07:51 GMT"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "access-control-allow-origin",
-							"value": "*"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "public, max-age=86400, s-maxage=86400"
-						},
-						{
-							"key": "etag",
-							"value": "W/\"33c7-9J3eDGqqbvCV73O6HepTwzr4Q+M\""
-						},
-						{
-							"key": "function-execution-id",
-							"value": "9xw68eu80ri8"
-						},
-						{
-							"key": "strict-transport-security",
-							"value": "max-age=31556926"
-						},
-						{
-							"key": "x-cloud-trace-context",
-							"value": "7d9294d653ff26b8e29b376543e59fe5"
-						},
-						{
-							"key": "x-country-code",
-							"value": "CA"
-						},
-						{
-							"key": "x-powered-by",
-							"value": "Express"
-						},
-						{
-							"key": "x-served-by",
-							"value": "cache-yyz4529-YYZ"
-						},
-						{
-							"key": "x-cache",
-							"value": "MISS"
-						},
-						{
-							"key": "x-cache-hits",
-							"value": "0"
-						},
-						{
-							"key": "x-timer",
-							"value": "S1678450071.014156,VS0,VE296"
-						},
-						{
-							"key": "vary",
-							"value": "Accept-Encoding,cookie,need-authorization, x-fh-requested-host, accept-encoding"
-						},
-						{
-							"key": "alt-svc",
-							"value": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
-						},
-						{
-							"key": "CF-Cache-Status",
-							"value": "MISS"
-						},
-						{
-							"key": "Server-Timing",
-							"value": "cf-q-config;dur=1.0000003385358e-05"
-						},
-						{
-							"key": "Report-To",
-							"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=JDr2tjj6d9SEYOrhbQKQbQenGhxra4tKlXrP6sKbTvPrvbF1HNGt8r21bhUf4dg%2BySaCDbe%2FkpH%2BA7HyYWQhzV7qms2bNa%2Fu5oHHcT0RYQeBdd04R2iehIUyxgIG\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-						},
-						{
-							"key": "NEL",
-							"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-						},
-						{
-							"key": "Server",
-							"value": "cloudflare"
-						},
-						{
-							"key": "CF-RAY",
-							"value": "7a5b708f7eb8b918-AMS"
-						},
-						{
-							"key": "Content-Encoding",
-							"value": "br"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const schema = JSON.parse(pm.variables.get(\"post_access_token_rsp\"));\r",
+									"var responsetime = parseInt(pm.variables.get(\"response_time\"));\r",
+									"var response = JSON.parse(responseBody);\r",
+									"var message = pm.response.json();\r",
+									"\r",
+									"try {\r",
+									"        pm.test(\"response status code\", function() {\r",
+									"            if (pm.response.code !== 200 ){\r",
+									"                 console.log(\" ===================================================\");\r",
+									"                // console.log(\" Request Body   :\" +JSON.stringify(request.data, null, 2));\r",
+									"                 console.log(\" Error Response Body status code   :\" +pm.response.code)\r",
+									"                 console.log(\" Error Response Reason   :\" +pm.response.reason())\r",
+									"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+									"                 pm.expect(pm.response.code).to.equal(200); \r",
+									"            }else{\r",
+									"                pm.expect(pm.response.code).to.equal(200);\r",
+									"            }\r",
+									"        });\r",
+									"       \r",
+									"\r",
+									"        //Response schema validation\r",
+									"        pm.test('response message schema validation', function() {\r",
+									"            var validStrictResult = tv4.validateResult(message, schema, false, true);\r",
+									"            if (validStrictResult.valid !== true ){\r",
+									"                 console.log(\" ===================================================\");\r",
+									"              //   console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+									"                 console.log(\" Error Response Code   :\" +pm.response.code);\r",
+									"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+									"                 console.log(\" Error Response Headers   :\" +pm.response.headers)\r",
+									"                 pm.expect(validStrictResult.valid).to.be.true;\r",
+									"            }else{\r",
+									"                pm.expect(validStrictResult.valid).to.be.true;\r",
+									"            }\r",
+									"        });\r",
+									"        \r",
+									"        //Response time check \r",
+									"        pm.test(\"Response time is less than \"+responsetime+\"ms\", function() {\r",
+									"            if (parseInt(pm.response.responseTime) > responsetime ){\r",
+									"                 console.log(\" ===================================================\");\r",
+									"            //     console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+									"                 console.log(\" Expected Response Time   :\" +responsetime);\r",
+									"                 console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+									"                 console.log(\" Response Code   :\" +pm.response.code);\r",
+									"                 console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+									"                 console.log(\" Response Headers   :\" +pm.response.headers)\r",
+									"                 \r",
+									"                  pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+									"            }else{\r",
+									"                 pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+									"            }\r",
+									"            });\r",
+									"        \r",
+									"        //Application ID population\r",
+									"        \r",
+									"        if(pm.response.code === 200){\r",
+									"            //Get Access Token\r",
+									"            postman.setEnvironmentVariable(\"access_token\", message.access_token);\r",
+									"        }\r",
+									"\r",
+									"}\r",
+									"catch (e) {\r",
+									"  var data = JSON.parse(responseBody);\r",
+									"    console.log(\" ===================================================\");\r",
+									"  //  console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+									"    console.log(\" Expected Response Time   :\" +responsetime);\r",
+									"    console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+									"    console.log(\" Response Code   :\" +pm.response.code);\r",
+									"    console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+									"    console.log(\" Response Headers   :\" +pm.response.headers)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "3ea8c21d-eeec-43d9-840c-6960f50ac315"
+							}
 						}
 					],
-					"cookie": [],
-					"responseTime": null,
-					"body": "{\n    \"count\": 1281,\n    \"next\": \"https://pokeapi.co/api/v2/pokemon?offset=200&limit=200\",\n    \"previous\": null,\n    \"results\": [\n        {\n            \"name\": \"bulbasaur\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/1/\"\n        },\n        {\n            \"name\": \"ivysaur\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/2/\"\n        },\n        {\n            \"name\": \"venusaur\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/3/\"\n        },\n        {\n            \"name\": \"charmander\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/4/\"\n        },\n        {\n            \"name\": \"charmeleon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/5/\"\n        },\n        {\n            \"name\": \"charizard\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/6/\"\n        },\n        {\n            \"name\": \"squirtle\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/7/\"\n        },\n        {\n            \"name\": \"wartortle\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/8/\"\n        },\n        {\n            \"name\": \"blastoise\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/9/\"\n        },\n        {\n            \"name\": \"caterpie\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/10/\"\n        },\n        {\n            \"name\": \"metapod\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/11/\"\n        },\n        {\n            \"name\": \"butterfree\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/12/\"\n        },\n        {\n            \"name\": \"weedle\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/13/\"\n        },\n        {\n            \"name\": \"kakuna\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/14/\"\n        },\n        {\n            \"name\": \"beedrill\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/15/\"\n        },\n        {\n            \"name\": \"pidgey\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/16/\"\n        },\n        {\n            \"name\": \"pidgeotto\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/17/\"\n        },\n        {\n            \"name\": \"pidgeot\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/18/\"\n        },\n        {\n            \"name\": \"rattata\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/19/\"\n        },\n        {\n            \"name\": \"raticate\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/20/\"\n        },\n        {\n            \"name\": \"spearow\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/21/\"\n        },\n        {\n            \"name\": \"fearow\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/22/\"\n        },\n        {\n            \"name\": \"ekans\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/23/\"\n        },\n        {\n            \"name\": \"arbok\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/24/\"\n        },\n        {\n            \"name\": \"pikachu\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/25/\"\n        },\n        {\n            \"name\": \"raichu\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/26/\"\n        },\n        {\n            \"name\": \"sandshrew\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/27/\"\n        },\n        {\n            \"name\": \"sandslash\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/28/\"\n        },\n        {\n            \"name\": \"nidoran-f\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/29/\"\n        },\n        {\n            \"name\": \"nidorina\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/30/\"\n        },\n        {\n            \"name\": \"nidoqueen\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/31/\"\n        },\n        {\n            \"name\": \"nidoran-m\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/32/\"\n        },\n        {\n            \"name\": \"nidorino\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/33/\"\n        },\n        {\n            \"name\": \"nidoking\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/34/\"\n        },\n        {\n            \"name\": \"clefairy\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/35/\"\n        },\n        {\n            \"name\": \"clefable\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/36/\"\n        },\n        {\n            \"name\": \"vulpix\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/37/\"\n        },\n        {\n            \"name\": \"ninetales\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/38/\"\n        },\n        {\n            \"name\": \"jigglypuff\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/39/\"\n        },\n        {\n            \"name\": \"wigglytuff\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/40/\"\n        },\n        {\n            \"name\": \"zubat\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/41/\"\n        },\n        {\n            \"name\": \"golbat\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/42/\"\n        },\n        {\n            \"name\": \"oddish\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/43/\"\n        },\n        {\n            \"name\": \"gloom\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/44/\"\n        },\n        {\n            \"name\": \"vileplume\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/45/\"\n        },\n        {\n            \"name\": \"paras\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/46/\"\n        },\n        {\n            \"name\": \"parasect\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/47/\"\n        },\n        {\n            \"name\": \"venonat\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/48/\"\n        },\n        {\n            \"name\": \"venomoth\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/49/\"\n        },\n        {\n            \"name\": \"diglett\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/50/\"\n        },\n        {\n            \"name\": \"dugtrio\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/51/\"\n        },\n        {\n            \"name\": \"meowth\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/52/\"\n        },\n        {\n            \"name\": \"persian\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/53/\"\n        },\n        {\n            \"name\": \"psyduck\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/54/\"\n        },\n        {\n            \"name\": \"golduck\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/55/\"\n        },\n        {\n            \"name\": \"mankey\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/56/\"\n        },\n        {\n            \"name\": \"primeape\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/57/\"\n        },\n        {\n            \"name\": \"growlithe\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/58/\"\n        },\n        {\n            \"name\": \"arcanine\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/59/\"\n        },\n        {\n            \"name\": \"poliwag\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/60/\"\n        },\n        {\n            \"name\": \"poliwhirl\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/61/\"\n        },\n        {\n            \"name\": \"poliwrath\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/62/\"\n        },\n        {\n            \"name\": \"abra\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/63/\"\n        },\n        {\n            \"name\": \"kadabra\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/64/\"\n        },\n        {\n            \"name\": \"alakazam\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/65/\"\n        },\n        {\n            \"name\": \"machop\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/66/\"\n        },\n        {\n            \"name\": \"machoke\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/67/\"\n        },\n        {\n            \"name\": \"machamp\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/68/\"\n        },\n        {\n            \"name\": \"bellsprout\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/69/\"\n        },\n        {\n            \"name\": \"weepinbell\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/70/\"\n        },\n        {\n            \"name\": \"victreebel\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/71/\"\n        },\n        {\n            \"name\": \"tentacool\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/72/\"\n        },\n        {\n            \"name\": \"tentacruel\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/73/\"\n        },\n        {\n            \"name\": \"geodude\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/74/\"\n        },\n        {\n            \"name\": \"graveler\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/75/\"\n        },\n        {\n            \"name\": \"golem\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/76/\"\n        },\n        {\n            \"name\": \"ponyta\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/77/\"\n        },\n        {\n            \"name\": \"rapidash\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/78/\"\n        },\n        {\n            \"name\": \"slowpoke\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/79/\"\n        },\n        {\n            \"name\": \"slowbro\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/80/\"\n        },\n        {\n            \"name\": \"magnemite\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/81/\"\n        },\n        {\n            \"name\": \"magneton\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/82/\"\n        },\n        {\n            \"name\": \"farfetchd\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/83/\"\n        },\n        {\n            \"name\": \"doduo\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/84/\"\n        },\n        {\n            \"name\": \"dodrio\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/85/\"\n        },\n        {\n            \"name\": \"seel\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/86/\"\n        },\n        {\n            \"name\": \"dewgong\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/87/\"\n        },\n        {\n            \"name\": \"grimer\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/88/\"\n        },\n        {\n            \"name\": \"muk\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/89/\"\n        },\n        {\n            \"name\": \"shellder\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/90/\"\n        },\n        {\n            \"name\": \"cloyster\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/91/\"\n        },\n        {\n            \"name\": \"gastly\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/92/\"\n        },\n        {\n            \"name\": \"haunter\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/93/\"\n        },\n        {\n            \"name\": \"gengar\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/94/\"\n        },\n        {\n            \"name\": \"onix\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/95/\"\n        },\n        {\n            \"name\": \"drowzee\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/96/\"\n        },\n        {\n            \"name\": \"hypno\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/97/\"\n        },\n        {\n            \"name\": \"krabby\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/98/\"\n        },\n        {\n            \"name\": \"kingler\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/99/\"\n        },\n        {\n            \"name\": \"voltorb\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/100/\"\n        },\n        {\n            \"name\": \"electrode\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/101/\"\n        },\n        {\n            \"name\": \"exeggcute\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/102/\"\n        },\n        {\n            \"name\": \"exeggutor\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/103/\"\n        },\n        {\n            \"name\": \"cubone\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/104/\"\n        },\n        {\n            \"name\": \"marowak\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/105/\"\n        },\n        {\n            \"name\": \"hitmonlee\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/106/\"\n        },\n        {\n            \"name\": \"hitmonchan\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/107/\"\n        },\n        {\n            \"name\": \"lickitung\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/108/\"\n        },\n        {\n            \"name\": \"koffing\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/109/\"\n        },\n        {\n            \"name\": \"weezing\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/110/\"\n        },\n        {\n            \"name\": \"rhyhorn\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/111/\"\n        },\n        {\n            \"name\": \"rhydon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/112/\"\n        },\n        {\n            \"name\": \"chansey\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/113/\"\n        },\n        {\n            \"name\": \"tangela\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/114/\"\n        },\n        {\n            \"name\": \"kangaskhan\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/115/\"\n        },\n        {\n            \"name\": \"horsea\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/116/\"\n        },\n        {\n            \"name\": \"seadra\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/117/\"\n        },\n        {\n            \"name\": \"goldeen\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/118/\"\n        },\n        {\n            \"name\": \"seaking\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/119/\"\n        },\n        {\n            \"name\": \"staryu\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/120/\"\n        },\n        {\n            \"name\": \"starmie\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/121/\"\n        },\n        {\n            \"name\": \"mr-mime\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/122/\"\n        },\n        {\n            \"name\": \"scyther\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/123/\"\n        },\n        {\n            \"name\": \"jynx\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/124/\"\n        },\n        {\n            \"name\": \"electabuzz\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/125/\"\n        },\n        {\n            \"name\": \"magmar\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/126/\"\n        },\n        {\n            \"name\": \"pinsir\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/127/\"\n        },\n        {\n            \"name\": \"tauros\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/128/\"\n        },\n        {\n            \"name\": \"magikarp\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/129/\"\n        },\n        {\n            \"name\": \"gyarados\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/130/\"\n        },\n        {\n            \"name\": \"lapras\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/131/\"\n        },\n        {\n            \"name\": \"ditto\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/132/\"\n        },\n        {\n            \"name\": \"eevee\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/133/\"\n        },\n        {\n            \"name\": \"vaporeon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/134/\"\n        },\n        {\n            \"name\": \"jolteon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/135/\"\n        },\n        {\n            \"name\": \"flareon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/136/\"\n        },\n        {\n            \"name\": \"porygon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/137/\"\n        },\n        {\n            \"name\": \"omanyte\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/138/\"\n        },\n        {\n            \"name\": \"omastar\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/139/\"\n        },\n        {\n            \"name\": \"kabuto\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/140/\"\n        },\n        {\n            \"name\": \"kabutops\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/141/\"\n        },\n        {\n            \"name\": \"aerodactyl\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/142/\"\n        },\n        {\n            \"name\": \"snorlax\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/143/\"\n        },\n        {\n            \"name\": \"articuno\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/144/\"\n        },\n        {\n            \"name\": \"zapdos\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/145/\"\n        },\n        {\n            \"name\": \"moltres\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/146/\"\n        },\n        {\n            \"name\": \"dratini\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/147/\"\n        },\n        {\n            \"name\": \"dragonair\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/148/\"\n        },\n        {\n            \"name\": \"dragonite\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/149/\"\n        },\n        {\n            \"name\": \"mewtwo\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/150/\"\n        },\n        {\n            \"name\": \"mew\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/151/\"\n        },\n        {\n            \"name\": \"chikorita\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/152/\"\n        },\n        {\n            \"name\": \"bayleef\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/153/\"\n        },\n        {\n            \"name\": \"meganium\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/154/\"\n        },\n        {\n            \"name\": \"cyndaquil\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/155/\"\n        },\n        {\n            \"name\": \"quilava\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/156/\"\n        },\n        {\n            \"name\": \"typhlosion\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/157/\"\n        },\n        {\n            \"name\": \"totodile\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/158/\"\n        },\n        {\n            \"name\": \"croconaw\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/159/\"\n        },\n        {\n            \"name\": \"feraligatr\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/160/\"\n        },\n        {\n            \"name\": \"sentret\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/161/\"\n        },\n        {\n            \"name\": \"furret\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/162/\"\n        },\n        {\n            \"name\": \"hoothoot\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/163/\"\n        },\n        {\n            \"name\": \"noctowl\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/164/\"\n        },\n        {\n            \"name\": \"ledyba\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/165/\"\n        },\n        {\n            \"name\": \"ledian\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/166/\"\n        },\n        {\n            \"name\": \"spinarak\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/167/\"\n        },\n        {\n            \"name\": \"ariados\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/168/\"\n        },\n        {\n            \"name\": \"crobat\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/169/\"\n        },\n        {\n            \"name\": \"chinchou\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/170/\"\n        },\n        {\n            \"name\": \"lanturn\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/171/\"\n        },\n        {\n            \"name\": \"pichu\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/172/\"\n        },\n        {\n            \"name\": \"cleffa\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/173/\"\n        },\n        {\n            \"name\": \"igglybuff\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/174/\"\n        },\n        {\n            \"name\": \"togepi\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/175/\"\n        },\n        {\n            \"name\": \"togetic\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/176/\"\n        },\n        {\n            \"name\": \"natu\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/177/\"\n        },\n        {\n            \"name\": \"xatu\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/178/\"\n        },\n        {\n            \"name\": \"mareep\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/179/\"\n        },\n        {\n            \"name\": \"flaaffy\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/180/\"\n        },\n        {\n            \"name\": \"ampharos\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/181/\"\n        },\n        {\n            \"name\": \"bellossom\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/182/\"\n        },\n        {\n            \"name\": \"marill\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/183/\"\n        },\n        {\n            \"name\": \"azumarill\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/184/\"\n        },\n        {\n            \"name\": \"sudowoodo\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/185/\"\n        },\n        {\n            \"name\": \"politoed\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/186/\"\n        },\n        {\n            \"name\": \"hoppip\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/187/\"\n        },\n        {\n            \"name\": \"skiploom\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/188/\"\n        },\n        {\n            \"name\": \"jumpluff\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/189/\"\n        },\n        {\n            \"name\": \"aipom\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/190/\"\n        },\n        {\n            \"name\": \"sunkern\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/191/\"\n        },\n        {\n            \"name\": \"sunflora\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/192/\"\n        },\n        {\n            \"name\": \"yanma\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/193/\"\n        },\n        {\n            \"name\": \"wooper\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/194/\"\n        },\n        {\n            \"name\": \"quagsire\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/195/\"\n        },\n        {\n            \"name\": \"espeon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/196/\"\n        },\n        {\n            \"name\": \"umbreon\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/197/\"\n        },\n        {\n            \"name\": \"murkrow\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/198/\"\n        },\n        {\n            \"name\": \"slowking\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/199/\"\n        },\n        {\n            \"name\": \"misdreavus\",\n            \"url\": \"https://pokeapi.co/api/v2/pokemon/200/\"\n        }\n    ]\n}"
+					"_postman_id": "e56b21a5-d78f-4046-a8c1-1d089b7ecc0f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								}
+							],
+							"options": {}
+						},
+						"url": {
+							"raw": "https://{{environment}}/oauth/client_credential/accesstoken?grant_type=client_credentials",
+							"protocol": "https",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"oauth",
+								"client_credential",
+								"accesstoken"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			]
+			],
+			"_postman_id": "285b6bab-84fd-472d-9e33-69bbb70de60f"
+		},
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "SMS",
+					"item": [
+						{
+							"name": "POST /send",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"const schema = JSON.parse(pm.variables.get(\"post_sms_rsp\"));\r",
+											"var responsetime = parseInt(pm.variables.get(\"response_time\"));\r",
+											"var response = JSON.parse(responseBody);\r",
+											"var message = pm.response.json();\r",
+											"\r",
+											"try {\r",
+											"        pm.test(\"response status code\", function() {\r",
+											"            if (pm.response.code !== 200 ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data, null, 2));\r",
+											"                 console.log(\" Error Response Body status code   :\" +pm.response.code)\r",
+											"                 console.log(\" Error Response Reason   :\" +pm.response.reason())\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 pm.expect(pm.response.code).to.equal(200); \r",
+											"            }else{\r",
+											"                pm.expect(pm.response.code).to.equal(200);\r",
+											"            }\r",
+											"        });\r",
+											"       \r",
+											"\r",
+											"        //Response schema validation\r",
+											"        pm.test('response message schema validation', function() {\r",
+											"            var validStrictResult = tv4.validateResult(message, schema, false, true);\r",
+											"            if (validStrictResult.valid !== true ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Error Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Error Response Headers   :\" +pm.response.headers)\r",
+											"                 pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }else{\r",
+											"                pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }\r",
+											"        });\r",
+											"        \r",
+											"        //Response time check \r",
+											"        pm.test(\"Response time is less than \"+responsetime+\"ms\", function() {\r",
+											"            if (parseInt(pm.response.responseTime) > responsetime ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"                 console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"                 console.log(\" Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"                 \r",
+											"                  pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }else{\r",
+											"                 pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }\r",
+											"            });\r",
+											"        \r",
+											"        //Application ID population\r",
+											"        \r",
+											"        if(pm.response.code === 201){\r",
+											"            //Application ID population\r",
+											"            pm.environment.set(\"application_id\", message.id);\r",
+											"        }\r",
+											"\r",
+											"}\r",
+											"catch (e) {\r",
+											"  var data = JSON.parse(responseBody);\r",
+											"    console.log(\" ===================================================\");\r",
+											"    console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"    console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"    console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"    console.log(\" Response Code   :\" +pm.response.code);\r",
+											"    console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"    console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "03c5c55e-8f39-4a33-a869-ffefaf9fe252"
+									}
+								}
+							],
+							"_postman_id": "85e24cb2-39b6-42cc-9801-59f8982f12df",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "api-version",
+										"value": "v1",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"messages\":[{\"content\":\"Bevestigingscode: 123456\",\"mobile_number\":\"+31622191630\"}],\"sender\":\"ATS-WebKoz\"}",
+									"options": {}
+								},
+								"url": "https://{{environment}}/{{sms_kpn_basepath1}}/send",
+								"description": "Quota is increased in dev for testing!"
+							},
+							"response": [
+								{
+									"id": "f2681bb5-25ef-4961-b767-fbf5a6d9dc94",
+									"name": "POST /send",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"messages\": [\r\n       {\r\n           \"content\": \"SMS - KPN: Internal Testing\",\r\n           \"mobile_number\": \"0624577981\"\r\n       }\r\n   ],\r\n  \"sender\": \"API Store\"\r\n}\r\n"
+										},
+										"url": "https://{{environment}}/{{sms_kpn_basepath}}/send"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 25 Mar 2019 12:22:13 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "68"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Strict-transport-security",
+											"value": "max-age=31536000"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ADRUM_BT=R:0|n:customer1_9657ff4f-7f34-4241-baf4-a22b2a585bf7|g:530d995f-3678-4ab6-8f16-ea857bb03130|i:48482|s:f; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ORA_OTD_JROUTE=-Zzs5lsc0rMRfn1I; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Msgmon-transactionid",
+											"value": "c2dc5d7ecf989d96c12541fd919c10"
+										},
+										{
+											"key": "X-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "X-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "API-Token-Cache-Hit",
+											"value": "true"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"document_id\": \"43904b50-15f8-4c58-b482-192a68d7a515\",\n    \"status\": \"OK\"\n}"
+								}
+							]
+						},
+						{
+							"name": "POST /send",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"const schema = JSON.parse(pm.variables.get(\"post_sms_rsp\"));\r",
+											"var responsetime = parseInt(pm.variables.get(\"response_time\"));\r",
+											"var response = JSON.parse(responseBody);\r",
+											"var message = pm.response.json();\r",
+											"\r",
+											"try {\r",
+											"        pm.test(\"response status code\", function() {\r",
+											"            if (pm.response.code !== 200 ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data, null, 2));\r",
+											"                 console.log(\" Error Response Body status code   :\" +pm.response.code)\r",
+											"                 console.log(\" Error Response Reason   :\" +pm.response.reason())\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 pm.expect(pm.response.code).to.equal(200); \r",
+											"            }else{\r",
+											"                pm.expect(pm.response.code).to.equal(200);\r",
+											"            }\r",
+											"        });\r",
+											"       \r",
+											"\r",
+											"        //Response schema validation\r",
+											"        pm.test('response message schema validation', function() {\r",
+											"            var validStrictResult = tv4.validateResult(message, schema, false, true);\r",
+											"            if (validStrictResult.valid !== true ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Error Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Error Response Headers   :\" +pm.response.headers)\r",
+											"                 pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }else{\r",
+											"                pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }\r",
+											"        });\r",
+											"        \r",
+											"        //Response time check \r",
+											"        pm.test(\"Response time is less than \"+responsetime+\"ms\", function() {\r",
+											"            if (parseInt(pm.response.responseTime) > responsetime ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"                 console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"                 console.log(\" Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"                 \r",
+											"                  pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }else{\r",
+											"                 pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }\r",
+											"            });\r",
+											"        \r",
+											"        //Application ID population\r",
+											"        \r",
+											"        if(pm.response.code === 201){\r",
+											"            //Application ID population\r",
+											"            pm.environment.set(\"application_id\", message.id);\r",
+											"        }\r",
+											"\r",
+											"}\r",
+											"catch (e) {\r",
+											"  var data = JSON.parse(responseBody);\r",
+											"    console.log(\" ===================================================\");\r",
+											"    console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"    console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"    console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"    console.log(\" Response Code   :\" +pm.response.code);\r",
+											"    console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"    console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "6c276e12-790f-4f26-aa3d-873df8c76c56"
+									}
+								}
+							],
+							"_postman_id": "55b17425-c11b-4e5d-bb56-1071eb905009",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n   \"messages\":[ \r\n      { \r\n         \"content\":\"test\",\r\n         \"mobile_number\":\"+31617185666\"\r\n      }\r\n   ],\r\n   \"sender\":\"KPN\"\r\n}\r\n",
+									"options": {}
+								},
+								"url": "https://{{environment}}/{{sms_kpn_basepath2}}/send",
+								"description": "Quota is increased in dev for testing!"
+							},
+							"response": [
+								{
+									"id": "4cb2400a-2afd-4708-bc63-84d834cb26cf",
+									"name": "POST /send",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"messages\": [\r\n       {\r\n           \"content\": \"SMS - KPN: Internal Testing\",\r\n           \"mobile_number\": \"0624577981\"\r\n       }\r\n   ],\r\n  \"sender\": \"API Store\"\r\n}\r\n"
+										},
+										"url": "https://{{environment}}/{{sms_kpn_basepath}}/send"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 25 Mar 2019 12:22:13 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "68"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Strict-transport-security",
+											"value": "max-age=31536000"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ADRUM_BT=R:0|n:customer1_9657ff4f-7f34-4241-baf4-a22b2a585bf7|g:530d995f-3678-4ab6-8f16-ea857bb03130|i:48482|s:f; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ORA_OTD_JROUTE=-Zzs5lsc0rMRfn1I; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Msgmon-transactionid",
+											"value": "c2dc5d7ecf989d96c12541fd919c10"
+										},
+										{
+											"key": "X-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "X-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "API-Token-Cache-Hit",
+											"value": "true"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"document_id\": \"43904b50-15f8-4c58-b482-192a68d7a515\",\n    \"status\": \"OK\"\n}"
+								}
+							]
+						}
+					],
+					"_postman_id": "53033301-b456-46a1-b1c6-1d55c3a41f15",
+					"_postman_isSubFolder": true
+				}
+			],
+			"_postman_id": "eb2ca2f8-1559-47c2-bb04-c2f22f90609e"
+		},
+		{
+			"name": "admin",
+			"item": [],
+			"_postman_id": "a39a438a-4917-459a-98c5-46ec27a964dc"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "d3a00888-6c67-4a85-92fc-496bd4eb678d"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "d7af885d-fe74-4f53-9d5d-b528f16788e4"
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1080b9bf-3f82-40f9-88ee-27f03eef1410",
+			"key": "environment",
+			"value": "api-prd.kpn.com",
+			"type": "string"
+		},
+		{
+			"id": "ead3a873-70b0-4b0c-b3cb-38727b076bc1",
+			"key": "phone_nr",
+			"value": "+31617185666",
+			"type": "string"
+		},
+		{
+			"id": "4239e813-f78b-46b5-ba7c-038a95332b0f",
+			"key": "client_id",
+			"value": "KukARHXs3nncHigG5MDnmHcx4QsyM3QK",
+			"type": "string"
+		},
+		{
+			"id": "fb9a0482-4ba5-4ec6-9e7d-e4dbfe21a342",
+			"key": "client_secret",
+			"value": "OfEXFG4z7p6ZPQyS",
+			"type": "string"
+		},
+		{
+			"id": "f68958af-ac4c-4826-a7a8-90561101abac",
+			"key": "sms_kpn_basepath1",
+			"value": "messaging/sms-kpn/v1",
+			"type": "string"
+		},
+		{
+			"id": "1ea57a50-5f2c-41f8-99b6-2d5c2f030f08",
+			"key": "error_400",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"string\"\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
+			"type": "string"
+		},
+		{
+			"id": "7fa32dbb-2c6d-47a0-8238-c4d9639c0e15",
+			"key": "error_401",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"string\"\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
+			"type": "string"
+		},
+		{
+			"id": "046c3844-5ddb-4f9d-925f-98a6b9e33a38",
+			"key": "error_500",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"string\"\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
+			"type": "string"
+		},
+		{
+			"id": "91e6ea43-b078-498b-be11-71e82f639782",
+			"key": "error_502",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"object\",\n          \"properties\": {\n            \"message\": {\n              \"$id\": \"#/properties/error/properties/message/properties/message\",\n              \"type\": \"string\",\n              \"pattern\": \"\"\n            },\n            \"errors\": {\n              \"$id\": \"#/properties/error/properties/message/properties/errors\",\n              \"type\": \"object\",\n              \"properties\": {\n                \"messages\": {\n                  \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages\",\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"0\": {\n                      \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages/properties/0\",\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"mobile_number\": {\n                          \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages/properties/0/properties/mobile_number\",\n                          \"type\": \"array\",\n                          \"items\": {\n                            \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages/properties/0/properties/mobile_number/items\",\n                            \"type\": \"string\",\n                            \"pattern\": \"\"\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            },\n            \"key\": {\n              \"$id\": \"#/properties/error/properties/message/properties/key\",\n              \"type\": \"null\"\n            },\n            \"code\": {\n              \"$id\": \"#/properties/error/properties/message/properties/code\",\n              \"type\": \"string\",\n              \"pattern\": \"\"\n            },\n            \"error_code\": {\n              \"$id\": \"#/properties/error/properties/message/properties/error_code\",\n              \"type\": \"null\"\n            }\n          }\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        }\n      }\n    }\n  }\n}",
+			"type": "string"
+		},
+		{
+			"id": "eed29118-6489-4bb8-a2b3-f69c2365ae66",
+			"key": "post_sms_rsp",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"document_id\": {\n      \"$id\": \"#/properties/document_id\",\n      \"type\": \"string\",\n      \"pattern\": \"\"\n    },\n    \"status\": {\n      \"$id\": \"#/properties/status\",\n      \"type\": \"string\",\n      \"pattern\": \"\"\n    }\n  }\n}",
+			"type": "string"
+		},
+		{
+			"id": "901f09e3-eca1-4e0b-bff4-b716a7426496",
+			"key": "response_time",
+			"value": "10000",
+			"type": "string"
+		},
+		{
+			"id": "ecafcd61-df0a-4cb9-b9a6-ded714d6643a",
+			"key": "post_access_token_rsp",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"refresh_token_expires_in\": {\n      \"$id\": \"#/properties/refresh_token_expires_in\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"api_product_list\": {\n      \"$id\": \"#/properties/api_product_list\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"organization_name\": {\n      \"$id\": \"#/properties/organization_name\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"developer_email\": {\n      \"$id\": \"#/properties/developer_email\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"token_type\": {\n      \"$id\": \"#/properties/token_type\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"issued_at\": {\n      \"$id\": \"#/properties/issued_at\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"client_id\": {\n      \"$id\": \"#/properties/client_id\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"access_token\": {\n      \"$id\": \"#/properties/access_token\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"application_name\": {\n      \"$id\": \"#/properties/application_name\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"scope\": {\n      \"$id\": \"#/properties/scope\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"expires_in\": {\n      \"$id\": \"#/properties/expires_in\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"refresh_token\": {\n      \"$id\": \"#/properties/refresh_token\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"refresh_count\": {\n      \"$id\": \"#/properties/refresh_count\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"status\": {\n      \"$id\": \"#/properties/status\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}",
+			"type": "string"
+		},
+		{
+			"id": "76d336e2-4455-4eda-9ca0-729b73339206",
+			"key": "incorrect_phone_nr",
+			"value": "fsdfasdfasdfas",
+			"type": "string"
+		},
+		{
+			"id": "b1a02dff-411a-4dde-b85c-4f762f883960",
+			"key": "sms_kpn_basepath2",
+			"value": "communication/kpn/sms",
+			"type": "string"
 		}
 	]
 }
