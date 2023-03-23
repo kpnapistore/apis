@@ -1,0 +1,708 @@
+{
+	"info": {
+		"_postman_id": "c7f5a478-d5d3-4d73-8f94-0d4ca44bbf2e",
+		"name": "Test [SMS-KPN]",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "4406147-c7f5a478-d5d3-4d73-8f94-0d4ca44bbf2e"
+	},
+	"item": [
+		{
+			"name": "OAuth",
+			"item": [
+				{
+					"name": "Get Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const schema = JSON.parse(pm.variables.get(\"post_access_token_rsp\"));\r",
+									"var responsetime = parseInt(pm.variables.get(\"response_time\"));\r",
+									"var response = JSON.parse(responseBody);\r",
+									"var message = pm.response.json();\r",
+									"\r",
+									"try {\r",
+									"        pm.test(\"response status code\", function() {\r",
+									"            if (pm.response.code !== 200 ){\r",
+									"                 console.log(\" ===================================================\");\r",
+									"                // console.log(\" Request Body   :\" +JSON.stringify(request.data, null, 2));\r",
+									"                 console.log(\" Error Response Body status code   :\" +pm.response.code)\r",
+									"                 console.log(\" Error Response Reason   :\" +pm.response.reason())\r",
+									"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+									"                 pm.expect(pm.response.code).to.equal(200); \r",
+									"            }else{\r",
+									"                pm.expect(pm.response.code).to.equal(200);\r",
+									"            }\r",
+									"        });\r",
+									"       \r",
+									"\r",
+									"        //Response schema validation\r",
+									"        pm.test('response message schema validation', function() {\r",
+									"            var validStrictResult = tv4.validateResult(message, schema, false, true);\r",
+									"            if (validStrictResult.valid !== true ){\r",
+									"                 console.log(\" ===================================================\");\r",
+									"              //   console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+									"                 console.log(\" Error Response Code   :\" +pm.response.code);\r",
+									"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+									"                 console.log(\" Error Response Headers   :\" +pm.response.headers)\r",
+									"                 pm.expect(validStrictResult.valid).to.be.true;\r",
+									"            }else{\r",
+									"                pm.expect(validStrictResult.valid).to.be.true;\r",
+									"            }\r",
+									"        });\r",
+									"        \r",
+									"        //Response time check \r",
+									"        pm.test(\"Response time is less than \"+responsetime+\"ms\", function() {\r",
+									"            if (parseInt(pm.response.responseTime) > responsetime ){\r",
+									"                 console.log(\" ===================================================\");\r",
+									"            //     console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+									"                 console.log(\" Expected Response Time   :\" +responsetime);\r",
+									"                 console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+									"                 console.log(\" Response Code   :\" +pm.response.code);\r",
+									"                 console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+									"                 console.log(\" Response Headers   :\" +pm.response.headers)\r",
+									"                 \r",
+									"                  pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+									"            }else{\r",
+									"                 pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+									"            }\r",
+									"            });\r",
+									"        \r",
+									"        //Application ID population\r",
+									"        \r",
+									"        if(pm.response.code === 200){\r",
+									"            //Get Access Token\r",
+									"            postman.setEnvironmentVariable(\"access_token\", message.access_token);\r",
+									"        }\r",
+									"\r",
+									"}\r",
+									"catch (e) {\r",
+									"  var data = JSON.parse(responseBody);\r",
+									"    console.log(\" ===================================================\");\r",
+									"  //  console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+									"    console.log(\" Expected Response Time   :\" +responsetime);\r",
+									"    console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+									"    console.log(\" Response Code   :\" +pm.response.code);\r",
+									"    console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+									"    console.log(\" Response Headers   :\" +pm.response.headers)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "3ea8c21d-eeec-43d9-840c-6960f50ac315"
+							}
+						}
+					],
+					"id": "ac61fb6c-05c3-4b99-b841-587edacbd83e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{environment}}/oauth/client_credential/accesstoken?grant_type=client_credentials",
+							"protocol": "https",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"oauth",
+								"client_credential",
+								"accesstoken"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "95ab3b5c-516a-49d9-9e3e-a1c3c9eddd23"
+		},
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "SMS",
+					"item": [
+						{
+							"name": "POST /send",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"const schema = JSON.parse(pm.variables.get(\"post_sms_rsp\"));\r",
+											"var responsetime = parseInt(pm.variables.get(\"response_time\"));\r",
+											"var response = JSON.parse(responseBody);\r",
+											"var message = pm.response.json();\r",
+											"\r",
+											"try {\r",
+											"        pm.test(\"response status code\", function() {\r",
+											"            if (pm.response.code !== 200 ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data, null, 2));\r",
+											"                 console.log(\" Error Response Body status code   :\" +pm.response.code)\r",
+											"                 console.log(\" Error Response Reason   :\" +pm.response.reason())\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 pm.expect(pm.response.code).to.equal(200); \r",
+											"            }else{\r",
+											"                pm.expect(pm.response.code).to.equal(200);\r",
+											"            }\r",
+											"        });\r",
+											"       \r",
+											"\r",
+											"        //Response schema validation\r",
+											"        pm.test('response message schema validation', function() {\r",
+											"            var validStrictResult = tv4.validateResult(message, schema, false, true);\r",
+											"            if (validStrictResult.valid !== true ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Error Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Error Response Headers   :\" +pm.response.headers)\r",
+											"                 pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }else{\r",
+											"                pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }\r",
+											"        });\r",
+											"        \r",
+											"        //Response time check \r",
+											"        pm.test(\"Response time is less than \"+responsetime+\"ms\", function() {\r",
+											"            if (parseInt(pm.response.responseTime) > responsetime ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"                 console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"                 console.log(\" Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"                 \r",
+											"                  pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }else{\r",
+											"                 pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }\r",
+											"            });\r",
+											"        \r",
+											"        //Application ID population\r",
+											"        \r",
+											"        if(pm.response.code === 201){\r",
+											"            //Application ID population\r",
+											"            pm.environment.set(\"application_id\", message.id);\r",
+											"        }\r",
+											"\r",
+											"}\r",
+											"catch (e) {\r",
+											"  var data = JSON.parse(responseBody);\r",
+											"    console.log(\" ===================================================\");\r",
+											"    console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"    console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"    console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"    console.log(\" Response Code   :\" +pm.response.code);\r",
+											"    console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"    console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "03c5c55e-8f39-4a33-a869-ffefaf9fe252"
+									}
+								}
+							],
+							"id": "62503a75-1e09-4413-8e12-4522de2661c8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "api-version",
+										"value": "v1",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"messages\":[{\"content\":\"Bevestigingscode: 123456\",\"mobile_number\":\"+31622191630\"}],\"sender\":\"ATS-WebKoz\"}"
+								},
+								"url": {
+									"raw": "https://{{environment}}/{{sms_kpn_basepath1}}/send",
+									"protocol": "https",
+									"host": [
+										"{{environment}}"
+									],
+									"path": [
+										"{{sms_kpn_basepath1}}",
+										"send"
+									]
+								},
+								"description": "Quota is increased in dev for testing!"
+							},
+							"response": [
+								{
+									"id": "8674d7b6-70b7-4c47-af01-1a7d0ad9b391",
+									"name": "POST /send",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "api-version",
+												"value": "v1",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"messages\":[{\"content\":\"Bevestigingscode: 123456\",\"mobile_number\":\"+31622191630\"}],\"sender\":\"ATS-WebKoz\"}"
+										},
+										"url": {
+											"raw": "https://{{environment}}/{{sms_kpn_basepath1}}/send",
+											"protocol": "https",
+											"host": [
+												"{{environment}}"
+											],
+											"path": [
+												"{{sms_kpn_basepath1}}",
+												"send"
+											]
+										},
+										"description": "Quota is increased in dev for testing!"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 25 Mar 2019 12:22:13 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "68"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Strict-transport-security",
+											"value": "max-age=31536000"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ADRUM_BT=R:0|n:customer1_9657ff4f-7f34-4241-baf4-a22b2a585bf7|g:530d995f-3678-4ab6-8f16-ea857bb03130|i:48482|s:f; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ORA_OTD_JROUTE=-Zzs5lsc0rMRfn1I; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Msgmon-transactionid",
+											"value": "c2dc5d7ecf989d96c12541fd919c10"
+										},
+										{
+											"key": "X-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "X-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "API-Token-Cache-Hit",
+											"value": "true"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"document_id\": \"43904b50-15f8-4c58-b482-192a68d7a515\",\n    \"status\": \"OK\"\n}"
+								}
+							]
+						},
+						{
+							"name": "POST /send",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"const schema = JSON.parse(pm.variables.get(\"post_sms_rsp\"));\r",
+											"var responsetime = parseInt(pm.variables.get(\"response_time\"));\r",
+											"var response = JSON.parse(responseBody);\r",
+											"var message = pm.response.json();\r",
+											"\r",
+											"try {\r",
+											"        pm.test(\"response status code\", function() {\r",
+											"            if (pm.response.code !== 200 ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data, null, 2));\r",
+											"                 console.log(\" Error Response Body status code   :\" +pm.response.code)\r",
+											"                 console.log(\" Error Response Reason   :\" +pm.response.reason())\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 pm.expect(pm.response.code).to.equal(200); \r",
+											"            }else{\r",
+											"                pm.expect(pm.response.code).to.equal(200);\r",
+											"            }\r",
+											"        });\r",
+											"       \r",
+											"\r",
+											"        //Response schema validation\r",
+											"        pm.test('response message schema validation', function() {\r",
+											"            var validStrictResult = tv4.validateResult(message, schema, false, true);\r",
+											"            if (validStrictResult.valid !== true ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Error Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Error Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Error Response Headers   :\" +pm.response.headers)\r",
+											"                 pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }else{\r",
+											"                pm.expect(validStrictResult.valid).to.be.true;\r",
+											"            }\r",
+											"        });\r",
+											"        \r",
+											"        //Response time check \r",
+											"        pm.test(\"Response time is less than \"+responsetime+\"ms\", function() {\r",
+											"            if (parseInt(pm.response.responseTime) > responsetime ){\r",
+											"                 console.log(\" ===================================================\");\r",
+											"                 console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"                 console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"                 console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"                 console.log(\" Response Code   :\" +pm.response.code);\r",
+											"                 console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"                 console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"                 \r",
+											"                  pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }else{\r",
+											"                 pm.expect(pm.response.responseTime).to.be.below(responsetime)\r",
+											"            }\r",
+											"            });\r",
+											"        \r",
+											"        //Application ID population\r",
+											"        \r",
+											"        if(pm.response.code === 201){\r",
+											"            //Application ID population\r",
+											"            pm.environment.set(\"application_id\", message.id);\r",
+											"        }\r",
+											"\r",
+											"}\r",
+											"catch (e) {\r",
+											"  var data = JSON.parse(responseBody);\r",
+											"    console.log(\" ===================================================\");\r",
+											"    console.log(\" Request Body   :\" +JSON.stringify(request.data));\r",
+											"    console.log(\" Expected Response Time   :\" +responsetime);\r",
+											"    console.log(\" Actual Response Time   :\" +pm.response.responseTime);\r",
+											"    console.log(\" Response Code   :\" +pm.response.code);\r",
+											"    console.log(\" Response Body   :\" +JSON.stringify(response));\r",
+											"    console.log(\" Response Headers   :\" +pm.response.headers)\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "6c276e12-790f-4f26-aa3d-873df8c76c56"
+									}
+								}
+							],
+							"id": "161998be-2c77-4d17-be4a-8eb81315dda2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n   \"messages\":[ \r\n      { \r\n         \"content\":\"test\",\r\n         \"mobile_number\":\"+31617185666\"\r\n      }\r\n   ],\r\n   \"sender\":\"KPN\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "https://{{environment}}/{{sms_kpn_basepath2}}/send",
+									"protocol": "https",
+									"host": [
+										"{{environment}}"
+									],
+									"path": [
+										"{{sms_kpn_basepath2}}",
+										"send"
+									]
+								},
+								"description": "Quota is increased in dev for testing!"
+							},
+							"response": [
+								{
+									"id": "36af53bb-4f6b-4c20-aa8f-4246967e2a83",
+									"name": "POST /send",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{ \r\n   \"messages\":[ \r\n      { \r\n         \"content\":\"test\",\r\n         \"mobile_number\":\"+31617185666\"\r\n      }\r\n   ],\r\n   \"sender\":\"KPN\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "https://{{environment}}/{{sms_kpn_basepath2}}/send",
+											"protocol": "https",
+											"host": [
+												"{{environment}}"
+											],
+											"path": [
+												"{{sms_kpn_basepath2}}",
+												"send"
+											]
+										},
+										"description": "Quota is increased in dev for testing!"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 25 Mar 2019 12:22:13 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "68"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Strict-transport-security",
+											"value": "max-age=31536000"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ADRUM_BT=R:0|n:customer1_9657ff4f-7f34-4241-baf4-a22b2a585bf7|g:530d995f-3678-4ab6-8f16-ea857bb03130|i:48482|s:f; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Set-cookie",
+											"value": "ORA_OTD_JROUTE=-Zzs5lsc0rMRfn1I; Max-Age=30; Path=/; Secure"
+										},
+										{
+											"key": "Msgmon-transactionid",
+											"value": "c2dc5d7ecf989d96c12541fd919c10"
+										},
+										{
+											"key": "X-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "X-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "API-Token-Cache-Hit",
+											"value": "true"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"document_id\": \"43904b50-15f8-4c58-b482-192a68d7a515\",\n    \"status\": \"OK\"\n}"
+								}
+							]
+						}
+					],
+					"id": "f9f58049-47e5-4dc8-8861-0ec89ad3a2da"
+				}
+			],
+			"id": "9da1ef28-4b0d-4702-a75b-22a0252af87f"
+		},
+		{
+			"name": "admin",
+			"item": [],
+			"id": "c686539a-905d-4169-b59b-9ea14bf9f086"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "d3a00888-6c67-4a85-92fc-496bd4eb678d"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "d7af885d-fe74-4f53-9d5d-b528f16788e4"
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "f1fab99e-8256-47c3-b4cd-e1bdead925cd",
+			"key": "environment",
+			"value": "api-prd.kpn.com"
+		},
+		{
+			"id": "ada15579-b947-47c0-9e73-4d367a799363",
+			"key": "phone_nr",
+			"value": "+31617185666"
+		},
+		{
+			"id": "1977a664-3060-40b8-9ae6-dd4bbc79acb1",
+			"key": "client_id",
+			"value": "KukARHXs3nncHigG5MDnmHcx4QsyM3QK"
+		},
+		{
+			"id": "3cbc47b9-24d7-4e0c-9379-d75b3537e87d",
+			"key": "client_secret",
+			"value": "OfEXFG4z7p6ZPQyS"
+		},
+		{
+			"id": "9ef3e38e-e59e-4e45-bb94-7cdf0b6e9f3c",
+			"key": "sms_kpn_basepath1",
+			"value": "messaging/sms-kpn/v1"
+		},
+		{
+			"id": "9a2e0148-ab32-4a2d-abaf-9ed0c9b7562a",
+			"key": "error_400",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"string\"\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
+		},
+		{
+			"id": "80867353-6bae-40fc-9ba0-09b032e3742c",
+			"key": "error_401",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"string\"\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
+		},
+		{
+			"id": "58a6b795-9ae9-4f54-98bc-7a43cd53da99",
+			"key": "error_500",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"string\"\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
+		},
+		{
+			"id": "20cceb2c-d498-4922-a922-74a89a1905df",
+			"key": "error_502",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"$id\": \"#/properties/error\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"transactionId\": {\n          \"$id\": \"#/properties/error/properties/transactionId\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        },\n        \"status\": {\n          \"$id\": \"#/properties/error/properties/status\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        },\n        \"name\": {\n          \"$id\": \"#/properties/error/properties/name\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        },\n        \"message\": {\n          \"$id\": \"#/properties/error/properties/message\",\n          \"type\": \"object\",\n          \"properties\": {\n            \"message\": {\n              \"$id\": \"#/properties/error/properties/message/properties/message\",\n              \"type\": \"string\",\n              \"pattern\": \"\"\n            },\n            \"errors\": {\n              \"$id\": \"#/properties/error/properties/message/properties/errors\",\n              \"type\": \"object\",\n              \"properties\": {\n                \"messages\": {\n                  \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages\",\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"0\": {\n                      \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages/properties/0\",\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"mobile_number\": {\n                          \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages/properties/0/properties/mobile_number\",\n                          \"type\": \"array\",\n                          \"items\": {\n                            \"$id\": \"#/properties/error/properties/message/properties/errors/properties/messages/properties/0/properties/mobile_number/items\",\n                            \"type\": \"string\",\n                            \"pattern\": \"\"\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            },\n            \"key\": {\n              \"$id\": \"#/properties/error/properties/message/properties/key\",\n              \"type\": \"null\"\n            },\n            \"code\": {\n              \"$id\": \"#/properties/error/properties/message/properties/code\",\n              \"type\": \"string\",\n              \"pattern\": \"\"\n            },\n            \"error_code\": {\n              \"$id\": \"#/properties/error/properties/message/properties/error_code\",\n              \"type\": \"null\"\n            }\n          }\n        },\n        \"info\": {\n          \"$id\": \"#/properties/error/properties/info\",\n          \"type\": \"string\",\n          \"pattern\": \"\"\n        }\n      }\n    }\n  }\n}"
+		},
+		{
+			"id": "254f8452-27aa-43c7-89bc-a1388123e014",
+			"key": "post_sms_rsp",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"document_id\": {\n      \"$id\": \"#/properties/document_id\",\n      \"type\": \"string\",\n      \"pattern\": \"\"\n    },\n    \"status\": {\n      \"$id\": \"#/properties/status\",\n      \"type\": \"string\",\n      \"pattern\": \"\"\n    }\n  }\n}"
+		},
+		{
+			"id": "02ecf997-6e31-403c-8de3-8a0eb18b7f60",
+			"key": "response_time",
+			"value": "10000"
+		},
+		{
+			"id": "324c1428-fd04-49fe-b70a-96e446a1567a",
+			"key": "post_access_token_rsp",
+			"value": "{\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"http://example.com/root.json\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"refresh_token_expires_in\": {\n      \"$id\": \"#/properties/refresh_token_expires_in\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"api_product_list\": {\n      \"$id\": \"#/properties/api_product_list\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"organization_name\": {\n      \"$id\": \"#/properties/organization_name\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"developer_email\": {\n      \"$id\": \"#/properties/developer_email\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"token_type\": {\n      \"$id\": \"#/properties/token_type\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"issued_at\": {\n      \"$id\": \"#/properties/issued_at\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"client_id\": {\n      \"$id\": \"#/properties/client_id\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"access_token\": {\n      \"$id\": \"#/properties/access_token\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"application_name\": {\n      \"$id\": \"#/properties/application_name\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"scope\": {\n      \"$id\": \"#/properties/scope\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"expires_in\": {\n      \"$id\": \"#/properties/expires_in\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"refresh_token\": {\n      \"$id\": \"#/properties/refresh_token\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"refresh_count\": {\n      \"$id\": \"#/properties/refresh_count\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    },\n    \"status\": {\n      \"$id\": \"#/properties/status\",\n      \"type\": \"string\",\n      \"pattern\": \"^(.*)$\"\n    }\n  }\n}"
+		},
+		{
+			"id": "3840dd2e-4e2b-4888-94f8-6370e9198c5b",
+			"key": "incorrect_phone_nr",
+			"value": "fsdfasdfasdfas"
+		},
+		{
+			"id": "64ac82ad-6ad7-403a-9e08-6c0b04a6fab4",
+			"key": "sms_kpn_basepath2",
+			"value": "communication/kpn/sms"
+		}
+	]
+}
